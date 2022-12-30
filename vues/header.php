@@ -19,6 +19,10 @@
             <a href="index.php?commande=contact">Nous contacter</a>
         </nav>
         <div class="iconeRecherche">
-            <span class="material-symbols-outlined"><a href="index.php?commande=recherche">search</a></span>
+        <form method="GET">
+            <input type="text" name="recherche" placeholder="Rechercher"/>
+            <input class="bouton" type="submit" value="Rechercher"/>
+            <input type="hidden" name="commande" value="rechercheArticles"/>
+        </form>
         </div>
     </header>

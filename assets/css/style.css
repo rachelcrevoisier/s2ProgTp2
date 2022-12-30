@@ -7,9 +7,7 @@ img {
 	max-width: 100%;
 }
 
-p {
-	max-width: 75ch;
-}
+
 
 html {
 	line-height: 1.4125;
@@ -17,6 +15,9 @@ html {
 
 h1, h2, h3, h4, h5, h6 {
 	line-height: 1.1;
+}
+h1{
+	color:#4b738c;
 }
 a {
 	color: inherit;
@@ -69,20 +70,32 @@ nav :is(a, span):hover {
 
 .bouton {
 	display: inline-block;
-	padding: 8px 12px;
-	background-color: lightgrey;
+	padding: 6px 10px;
+	background-color: #c4b5a0;
+	border-radius: 5px;
+	margin-top:10px;
+}
+input {
+	display: inline-block;
+	padding: 4px 8px;
+	border:1px solid #2b475c;
+	
 	border-radius: 5px;
 	margin-top:10px;
 }
 .bouton:hover{
 	color:lightgrey;
-	background-color: black;
+	background-color: #2b475c;
 	border-radius: 5px;
 }
 main{
 	display:flex;
 	flex-direction: column;
 	gap:60px;
+}
+section{
+	padding-left:30px;
+	padding-right:30px;
 }
 footer{
 
