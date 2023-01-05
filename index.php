@@ -12,7 +12,7 @@
     else 
     {
         //s'il n'y a pas de commande alors on redirige vers la page d'accueil
-        $commande = "Accueil";
+        $commande = "accueil";
     }
     //On met la page modèle pour aller chercher les fonctions
     require_once("modele.php");
@@ -20,6 +20,9 @@
     switch($commande)
     {
         case "accueil": 
+            $listeArticles = obtenirArticles();
+            $listeDernierArticle = obtenirDernierArticle();
+            $liste2ArticlesUne = obtenir2ArticlesUne();
             $titre = "Accueil";
             require_once("vues/header.php");
             require("vues/accueil.php");
@@ -38,17 +41,182 @@
             require_once("vues/footer.php");
             break;  
         case "recherche": 
-            $titre = "Qui sommes Nous";
+            $titre = "Rechercher";
             require_once("vues/header.php");
             require("vues/recherche.php");
             require_once("vues/footer.php");
             break; 
         case "seConnecter": 
-            $titre = "Qui sommes Nous";
+            $titre = "Se connecter";
             require_once("vues/header.php");
             require("vues/connexion.php");
             require_once("vues/footer.php");
             break; 
+        case "article":
+            if(!isset($_GET["idArticle"]) || !is_numeric($_GET["idArticle"]))
+            {
+                header("Location: index.php");
+                die();
+            }
+            $lireArticle = articleId($_GET["idArticle"]);
+            if(mysqli_num_rows($lireArticle) > 0)
+            {
+                $titre = "Lire article";
+                require_once("vues/header.php");
+                require("vues/article.php");
+                require_once("vues/footer.php");
+                break; 
+            }
+            else 
+            { 
+                header("Location: index.php");
+                die();
+            }
+            break;
+        case "formModifArticle":
+            if(!isset($_GET["idArticle"]) || !is_numeric($_GET["idArticle"]))
+            {
+                header("Location: index.php");
+                die();
+            }
+            $lireArticle = articleId($_GET["idArticle"]);
+            if(mysqli_num_rows($lireArticle) > 0)
+            {
+                $titre = "Modifier article";
+                require_once("vues/header.php");
+                require("vues/formModifArticle.php");
+                require_once("vues/footer.php");
+            }
+            else 
+            { 
+                header("Location: index.php");
+                die();
+            }
+            break;
+        case "modifieArticle":
+            if(isset($_REQUEST["date"], $_REQUEST["titre"], $_REQUEST["texte"], $_REQUEST["visuel"], $_REQUEST["id"]))
+            { 
+                $date = trim($_REQUEST["date"]);
+                $titre = trim($_REQUEST["titre"]);
+                $texte = trim($_REQUEST["texte"]);
+                $visuel = trim($_REQUEST["visuel"]);
+                $idArticle = $_REQUEST["id"];
+                    if($date != "" && $titre != "" && $texte != "" && $visuel != "" && is_numeric($idArticle))
+                    { 
+                        $resultat = modifieArticle($date, $titre, $texte, $visuel, $idArticle);
+                        $lireArticle = articleId($idArticle);
+                        if(mysqli_num_rows($lireArticle) > 0)
+                        {
+                            $titre = "Lire article";
+                            require_once("vues/header.php");
+                            require("vues/article.php");
+                            require_once("vues/footer.php");
+                            break; 
+                        }
+                    
+                    }
+            
+            else 
+            {
+                header("Location: index.php?commande=formModifArticle&idArticle=$idArticle&message=Veuillez remplir correctement les champs.");
+                die();
+            } 
+            break;
+        }
+        case "formAjoutArticle":
+            $date = "";
+            $titre = "";
+            $texte = "";
+            $visuel = "";
+            $idJournaliste = "";
+            //au cas ou le formulaire a déjà été rempli (il était invalide)
+            if(isset($_REQUEST["date"])) 
+                $date = $_REQUEST["date"]; 
+            if(isset($_REQUEST["titre"])) 
+                $titre = $_REQUEST["titre"]; 
+            if(isset($_REQUEST["texte"])) 
+                $texte = $_REQUEST["texte"];
+            if(isset($_REQUEST["visuel"])) 
+                $visuel = $_REQUEST["visuel"];
+            if(isset($_REQUEST["idJournaliste"])) 
+                $idJournaliste = $_REQUEST["idJournaliste"];
+            $titre = "Ajouter un article";
+            require_once("vues/header.php");
+            require("vues/formAjoutArticle.php");
+            require_once("vues/footer.php");
+            break; 
+        case "ajoutArticle":
+            //procéder à l'insertion et la validation
+            if(isset($_REQUEST["date"], $_REQUEST["titre"], $_REQUEST["texte"], $_REQUEST["visuel"]))
+            { 
+                $date = trim($_REQUEST["date"]);
+                $titre = trim($_REQUEST["titre"]);
+                $texte = trim($_REQUEST["texte"]);
+                $visuel = trim($_REQUEST["visuel"]);
+                $idJournaliste = trim($_REQUEST["idJournaliste"]);
+                if($date != "" && $titre != "" && $texte != "" && $visuel != "" && $idJournaliste != "" && is_numeric($idJournaliste))
+                {
+                    //insertion
+                    $resultat = ajoutArticle($date, $titre, $texte, $visuel, $idJournaliste);
+                    if($resultat)
+            afficheArticleAccueil("Ajout réussie.");
+                    else 
+                    afficheArticleAccueil("Aucun ajout effectué.");
+             
+               } 
+            else 
+            {
+                header("Location: index.php?commande=formAjoutArticle&message=Veuillez remplir correctement les champs.&date=$date&titre=$titre&texte=$texte&visuel=$visuel");
+                die();
+            } 
+            }
+            break;
+        case "supArticle": 
+            if(!isset($_GET["idArticle"]) || !is_numeric($_GET["idArticle"]))
+            {
+                header("Location: index.php");
+                die();
+            }
+            $resultat = supArticle($_GET["idArticle"]);
+            if($resultat)
+            afficheArticleAccueil("Suppression réussie.");
+                    else 
+                    afficheArticleAccueil("Aucune suppression effectuée.");
+            break;  
+        case "rechercheArticle":
+            if(!isset($_GET["recherche"]) || $_GET["recherche"] == "")
+            {
+                header("Location: index.php?commande=Accueil&message=Vous n'avez rien inscrit dans le champ de recherche.");
+                die();
+            }
+            
+            $rechercheArticle = rechercheArticle($_GET["recherche"]);
+            if(mysqli_num_rows($rechercheArticle) > 0)
+            {
+                
+                $titre = "Rechercher un article"; 
+                require_once("vues/header.php");
+                require("vues/rechercheArticle.php");
+                require_once("vues/footer.php");
+            }
+            else 
+            {
+                header("Location: index.php?commande=Accueil&message=Recherche Non fructueuse.");
+                die();
+            } 
+            break;   
+        default:
+            header("Location: index.php");
+            die();
     } 
-
+    function afficheArticleAccueil($message = "")
+    {
+        $listeArticles = obtenirArticles();
+        $listeDernierArticle = obtenirDernierArticle();
+        $liste2ArticlesUne = obtenir2ArticlesUne();
+        $titre = "Accueil";
+        require_once("vues/header.php");
+        require("vues/accueil.php");
+        require_once("vues/footer.php");}
+    
 ?>
