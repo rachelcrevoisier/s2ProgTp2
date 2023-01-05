@@ -4,7 +4,7 @@
         <?php 
             while($rangee = mysqli_fetch_assoc($lireArticle))
             {
-                echo "<p class=\"date\">" . htmlspecialchars($rangee["date"]) . "</p>";
+                echo "<p class=\"date\">" . htmlspecialchars($rangee["date"]) . " - ". htmlspecialchars(ucfirst($rangee["rubrique"])) . "</p>";
                 echo "<h1>" . htmlspecialchars($rangee["titre"]) . "</h1>";
                 echo "<img src=\"assets/img/articles/". htmlspecialchars($rangee["visuel"])."\" alt=\"". htmlspecialchars($rangee["titre"]) ."\">";
                 echo "<p>" . $rangee["texte"] . "</p>";
