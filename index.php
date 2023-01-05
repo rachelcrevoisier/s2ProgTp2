@@ -94,16 +94,17 @@
             }
             break;
         case "modifieArticle":
-            if(isset($_REQUEST["date"], $_REQUEST["titre"], $_REQUEST["texte"], $_REQUEST["visuel"], $_REQUEST["id"]))
+            if(isset($_REQUEST["date"], $_REQUEST["titre"], $_REQUEST["texte"], $_REQUEST["visuel"], $_REQUEST["id"], $_REQUEST["rubrique"]))
             { 
                 $date = trim($_REQUEST["date"]);
                 $titre = trim($_REQUEST["titre"]);
                 $texte = trim($_REQUEST["texte"]);
                 $visuel = trim($_REQUEST["visuel"]);
                 $idArticle = $_REQUEST["id"];
-                    if($date != "" && $titre != "" && $texte != "" && $visuel != "" && is_numeric($idArticle))
+                $rubrique = $_REQUEST["rubrique"];
+                    if($date != "" && $titre != "" && $texte != ""&& $rubrique != "" && $visuel != "" && is_numeric($idArticle))
                     { 
-                        $resultat = modifieArticle($date, $titre, $texte, $visuel, $idArticle);
+                        $resultat = modifieArticle($date, $titre, $texte, $visuel, $idArticle, $rubrique);
                         $lireArticle = articleId($idArticle);
                         if(mysqli_num_rows($lireArticle) > 0)
                         {
@@ -129,6 +130,7 @@
             $texte = "";
             $visuel = "";
             $idJournaliste = "";
+            $rubrique = "";
             //au cas ou le formulaire a déjà été rempli (il était invalide)
             if(isset($_REQUEST["date"])) 
                 $date = $_REQUEST["date"]; 
@@ -140,6 +142,8 @@
                 $visuel = $_REQUEST["visuel"];
             if(isset($_REQUEST["idJournaliste"])) 
                 $idJournaliste = $_REQUEST["idJournaliste"];
+            if(isset($_REQUEST["rubrique"])) 
+                $rubrique = $_REQUEST["rubrique"];
             $titre = "Ajouter un article";
             require_once("vues/header.php");
             require("vues/formAjoutArticle.php");
@@ -147,17 +151,18 @@
             break; 
         case "ajoutArticle":
             //procéder à l'insertion et la validation
-            if(isset($_REQUEST["date"], $_REQUEST["titre"], $_REQUEST["texte"], $_REQUEST["visuel"]))
+            if(isset($_REQUEST["date"], $_REQUEST["titre"], $_REQUEST["texte"], $_REQUEST["visuel"], $_REQUEST["rubrique"]))
             { 
                 $date = trim($_REQUEST["date"]);
                 $titre = trim($_REQUEST["titre"]);
                 $texte = trim($_REQUEST["texte"]);
                 $visuel = trim($_REQUEST["visuel"]);
                 $idJournaliste = trim($_REQUEST["idJournaliste"]);
-                if($date != "" && $titre != "" && $texte != "" && $visuel != "" && $idJournaliste != "" && is_numeric($idJournaliste))
+                $rubrique = trim($_REQUEST["rubrique"]);
+                if($date != "" && $titre != "" && $texte != "" && $rubrique != "" && $visuel != "" && $idJournaliste != "" && is_numeric($idJournaliste))
                 {
                     //insertion
-                    $resultat = ajoutArticle($date, $titre, $texte, $visuel, $idJournaliste);
+                    $resultat = ajoutArticle($date, $titre, $texte, $visuel, $idJournaliste, $rubrique);
                     if($resultat)
             afficheArticleAccueil("Ajout réussie.");
                     else 
@@ -204,7 +209,8 @@
                 header("Location: index.php?commande=Accueil&message=Recherche Non fructueuse.");
                 die();
             } 
-            break;   
+            break; 
+        
         default:
             header("Location: index.php");
             die();
@@ -217,6 +223,7 @@
         $titre = "Accueil";
         require_once("vues/header.php");
         require("vues/accueil.php");
-        require_once("vues/footer.php");}
+        require_once("vues/footer.php");
+    }
     
 ?>

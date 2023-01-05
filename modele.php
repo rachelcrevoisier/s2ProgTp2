@@ -62,6 +62,16 @@
         $resultats = mysqli_query($connexion, $requete);
         return $resultats;
     }
+    function obtenirRubriques()
+    {
+        // Info pour se connecter
+        global $connexion;
+        $requete = "SELECT rubrique FROM s2tp2_rubriques
+        ORDER BY rubrique";
+        //exécuter avec mysqli_query
+        $resultats = mysqli_query($connexion, $requete);
+        return $resultats;
+    }
     function articleId($id)
     {
         // Info pour se connecter
@@ -73,11 +83,11 @@
         $resultats = mysqli_query($connexion, $requete);
         return $resultats;
     }
-    function modifieArticle($date, $titre, $texte, $visuel, $articleId)
+    function modifieArticle($date, $titre, $texte, $visuel, $articleId, $rubrique)
     {
         global $connexion;
         //on prépare la requête en mettant des ? à la place des paramètres qui viennent de l'usager
-        $requete = "UPDATE s2tp2_articles SET date = ?, titre = ?,  texte = ?, visuel = ? WHERE id = ?";
+        $requete = "UPDATE s2tp2_articles SET date = ?, titre = ?,  texte = ?, visuel = ?, rubrique = ? WHERE id = ?";
 
         //on prépare la requête
         $reqPrep = mysqli_prepare($connexion, $requete);
@@ -85,7 +95,7 @@
         if($reqPrep)
         { 
             //faire le lien
-            mysqli_stmt_bind_param($reqPrep, "ssssi", $date, $titre,  $texte, $visuel, $articleId);
+            mysqli_stmt_bind_param($reqPrep, "sssssi", $date, $titre,  $texte, $visuel, $rubrique, $articleId);
             //exécute la requête
             mysqli_stmt_execute($reqPrep);
         
@@ -95,13 +105,13 @@
                 return false;
          } 
     }
-    function ajoutArticle($date, $titre, $texte, $visuel, $idJournaliste)
+    function ajoutArticle($date, $titre, $texte, $visuel, $idJournaliste, $rubrique)
     {
         //obtenir la connexion définie plus haut (à l'extérieur de la fonction)
         global $connexion;
 
         //on prépare la requête en mettant des ? à la place des paramètres qui viennent de l'usager
-        $requete = "INSERT INTO s2tp2_articles(date, titre, texte, visuel, idJournaliste) VALUES (?, ?, ?, ?, ?)";
+        $requete = "INSERT INTO s2tp2_articles(date, titre, texte, visuel, idJournaliste, rubrique) VALUES (?, ?, ?, ?, ?, ?)";
 
         //on prépare la requête
         $reqPrep = mysqli_prepare($connexion, $requete);
@@ -109,7 +119,7 @@
         if($reqPrep)
         {
             //faire le lien
-            mysqli_stmt_bind_param($reqPrep, "ssssi", $date, $titre, $texte, $visuel, $idJournaliste);
+            mysqli_stmt_bind_param($reqPrep, "ssssis", $date, $titre, $texte, $visuel, $idJournaliste, $rubrique);
             //exécute la requête
             mysqli_stmt_execute($reqPrep);
         
