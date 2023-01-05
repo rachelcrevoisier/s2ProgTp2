@@ -12,6 +12,7 @@
     <header>
         <div class="iconesConnexion">
             <span class="material-symbols-outlined"><a href="index.php?commande=seConnecter">account_circle</a></span>
+            <span class="material-symbols-outlined"><a href="index.php?commande=formAjoutArticle">add_circle</a></span>
         </div>
         <nav>
             <a href="index.php?commande=accueil">Accueil</a>
@@ -22,7 +23,7 @@
         <form method="GET">
             <input type="text" name="recherche" placeholder="Rechercher"/>
             <input class="bouton" type="submit" value="Rechercher"/>
-            <input type="hidden" name="commande" value="rechercheArticles"/>
+            <input type="hidden" name="commande" value="rechercheArticle"/>
         </form>
         </div>
     </header>
