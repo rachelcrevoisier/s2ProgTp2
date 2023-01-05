@@ -15,6 +15,36 @@ CREATE TABLE s2tp2_journalistes(
     identifiant VARCHAR(50) NOT NULL,
     motDePasse VARCHAR(50) NOT NULL
 );
+CREATE TABLE s2tp2_rubriques(
+    rubrique VARCHAR(20) UNSIGNED PRIMARY KEY
+);
+
+ALTER TABLE s2tp2_articles
+    ADD rubrique VARCHAR(20)
+;
+ALTER TABLE s2tp2_articles
+  ADD CONSTRAINT s2tp2_articles FOREIGN KEY (rubrique) REFERENCES s2tp2_rubriques (rubrique);
+
+UPDATE s2tp2_articles SET rubrique = 'litterature' WHERE id = 1;
+UPDATE s2tp2_articles SET rubrique = 'litterature' WHERE id = 2;
+UPDATE s2tp2_articles SET rubrique = 'litterature' WHERE id = 3;
+UPDATE s2tp2_articles SET rubrique = 'litterature' WHERE id = 4;
+UPDATE s2tp2_articles SET rubrique = 'litterature' WHERE id = 5;
+UPDATE s2tp2_articles SET rubrique = 'sport' WHERE id = 6;
+UPDATE s2tp2_articles SET rubrique = 'techno' WHERE id = 7;
+UPDATE s2tp2_articles SET rubrique = 'techno' WHERE id = 8;
+UPDATE s2tp2_articles SET rubrique = 'litterature' WHERE id = 9;
+UPDATE s2tp2_articles SET rubrique = 'monde' WHERE id = 14;
+UPDATE s2tp2_articles SET rubrique = 'litterature' WHERE id = 16;
+UPDATE s2tp2_articles SET rubrique = 'musique' WHERE id = 17;
+UPDATE s2tp2_articles SET rubrique = 'musique' WHERE id = 18;
+UPDATE s2tp2_articles SET rubrique = 'cinema' WHERE id = 45;
+UPDATE s2tp2_articles SET rubrique = 'sport' WHERE id = 46;
+UPDATE s2tp2_articles SET rubrique = 'musique' WHERE id = 47;
+UPDATE s2tp2_articles SET rubrique = 'ecologie' WHERE id = 50;
+
+--Insertion rubriques
+INSERT INTO s2tp2_rubriques VALUES("sport"), ("economie"),("litterature"),("musique"),("monde"),("techno"),("cinema"),("ecologie");
 
 --Insertion journalistes
 INSERT INTO s2tp2_journalistes VALUES(NULL, "ValRoux", "pa110747?"), (NULL, "DavMouc", "Cjmtqmedec842"),(NULL, "PierreAnto", "Pierredierx3"),(NULL, "RhlCre", "Addclvtnepv3114");
