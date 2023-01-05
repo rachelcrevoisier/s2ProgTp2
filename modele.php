@@ -33,7 +33,7 @@
     {
         // Info pour se connecter
         global $connexion;
-        $requete = "SELECT s2tp2_articles.id, titre, texte, visuel, date, idJournaliste FROM s2tp2_articles
+        $requete = "SELECT s2tp2_articles.id, titre, texte, visuel, date, idJournaliste, rubrique FROM s2tp2_articles
         INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.id = s2tp2_articles.idJournaliste
         ORDER BY s2tp2_articles.date DESC limit 3,30";
         //exécuter avec mysqli_query
@@ -44,7 +44,7 @@
     {
         // Info pour se connecter
         global $connexion;
-        $requete = "SELECT s2tp2_articles.id, titre, texte, visuel, date, idJournaliste FROM s2tp2_articles
+        $requete = "SELECT s2tp2_articles.id, titre, texte, visuel, date, idJournaliste, rubrique FROM s2tp2_articles
         INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.id = s2tp2_articles.idJournaliste
         ORDER BY s2tp2_articles.date DESC limit 1";
         //exécuter avec mysqli_query
@@ -55,7 +55,7 @@
     {
         // Info pour se connecter
         global $connexion;
-        $requete = "SELECT s2tp2_articles.id, titre, texte, visuel, date, idJournaliste FROM s2tp2_articles
+        $requete = "SELECT s2tp2_articles.id, titre, texte, visuel, date, idJournaliste, rubrique FROM s2tp2_articles
         INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.id = s2tp2_articles.idJournaliste
         ORDER BY s2tp2_articles.date DESC limit 1,2";
         //exécuter avec mysqli_query
@@ -66,7 +66,7 @@
     {
         // Info pour se connecter
         global $connexion;
-        $requete = "SELECT s2tp2_articles.id AS articleId, titre, texte, visuel, date, idJournaliste, CONCAT(prenom,' ', nom) AS journaliste, identifiant FROM s2tp2_articles
+        $requete = "SELECT s2tp2_articles.id AS articleId, titre, texte, visuel, rubrique, date, idJournaliste, CONCAT(prenom,' ', nom) AS journaliste, identifiant FROM s2tp2_articles
         INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.id = s2tp2_articles.idJournaliste
         WHERE s2tp2_articles.id=$id";
         //exécuter avec mysqli_query
