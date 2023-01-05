@@ -191,7 +191,7 @@
         case "rechercheArticle":
             if(!isset($_GET["recherche"]) || $_GET["recherche"] == "")
             {
-                header("Location: index.php?commande=Accueil&message=Vous n'avez rien inscrit dans le champ de recherche.");
+                header("Location: index.php?commande=accueil&message=Vous n'avez rien inscrit dans le champ de recherche.");
                 die();
             }
             $recherche = $_GET["recherche"];
@@ -206,7 +206,7 @@
             }
             else 
             {
-                header("Location: index.php?commande=Accueil&message=Recherche Non fructueuse.");
+                header("Location: index.php?commande=accueil&message=Recherche Non fructueuse.");
                 die();
             } 
             break; 

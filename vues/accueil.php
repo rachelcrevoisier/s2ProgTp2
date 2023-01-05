@@ -1,5 +1,5 @@
 <main>
-    <span><?php if(isset($message)) echo $message; ?></span>
+<span><?php if(isset($_REQUEST["message"])) echo $_REQUEST["message"]; ?></span>
     <section class="articlesUnes">
     
         <div class="article1">
@@ -33,5 +33,5 @@
             ?>
       
             </div>
-
+           
 </main>
