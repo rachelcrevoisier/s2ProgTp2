@@ -155,7 +155,7 @@
         $requete = "SELECT s2tp2_articles.id, titre, texte, visuel, date, idJournaliste FROM s2tp2_articles
         INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.id = s2tp2_articles.idJournaliste
         
-        WHERE titre like ? OR texte like ?
+        WHERE titre like ? OR texte like ? OR rubrique like ?
         ORDER BY s2tp2_articles.date DESC";
 
         //on prépare la requête
@@ -164,7 +164,7 @@
         if($reqPrep)
         {
             //faire le lien
-            mysqli_stmt_bind_param($reqPrep, "ss",  $recherche, $recherche);
+            mysqli_stmt_bind_param($reqPrep, "sss",  $recherche, $recherche, $recherche);
             //exécute la requête
             mysqli_stmt_execute($reqPrep);
         
