@@ -194,7 +194,7 @@
                 header("Location: index.php?commande=Accueil&message=Vous n'avez rien inscrit dans le champ de recherche.");
                 die();
             }
-            
+            $recherche = $_GET["recherche"];
             $rechercheArticle = rechercheArticle($_GET["recherche"]);
             if(mysqli_num_rows($rechercheArticle) > 0)
             {

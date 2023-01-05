@@ -1,7 +1,7 @@
 <main>
     <span><?php if(isset($message)) echo $message; ?></span>
-
     
+    <h1>Recherche concernant : <?php echo $recherche; ?></h1>
     <div class="grille-presentation">
    
         <?php 
