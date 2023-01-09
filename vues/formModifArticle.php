@@ -18,7 +18,7 @@
         Visuel : <input type="text" name="visuel" value="<?= $visuel ?>" size="70"><br>
         Rubrique : <select name="rubrique">
     <?php
-    $rubriques = obtenirRubriques();
+    
         while($rangeeRubrique = mysqli_fetch_assoc($rubriques))
         {
             if($rubrique == $rangeeRubrique["rubrique"])

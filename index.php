@@ -79,6 +79,7 @@
             }
             // On a besoin de la fonction articleID avec l'ID de l'article en paramètre
             $lireArticle = articleId($_GET["idArticle"]);
+            $rubriques = obtenirRubriques();
             // Si on a un résultat, alors on va chercher les pages pour modifier un article, autrement, on redirige vers index
             if(mysqli_num_rows($lireArticle) > 0)
             {
@@ -128,37 +129,38 @@
         case "formAjoutArticle":
             // on crée les valeurs vides dont on a besoin pour le formulaire au cas où celui-ci soit invalide. S'il y a des request, la valeur prend celle du request pour retourner dans le formulaire d'ajout
             $date = "";
-            $titre = "";
+            $titreArticle = "";
             $texte = "";
             $visuel = "";
             $idJournaliste = "";
             $rubrique = "";
-            if(isset($_REQUEST["date"])) 
-                $date = $_REQUEST["date"]; 
-            if(isset($_REQUEST["titre"])) 
-                $titre = $_REQUEST["titre"]; 
-            if(isset($_REQUEST["texte"])) 
-                $texte = $_REQUEST["texte"];
-            if(isset($_REQUEST["visuel"])) 
-                $visuel = $_REQUEST["visuel"];
-            if(isset($_REQUEST["idJournaliste"])) 
-                $idJournaliste = $_REQUEST["idJournaliste"];
-            if(isset($_REQUEST["rubrique"])) 
-                $rubrique = $_REQUEST["rubrique"];
+            if(isset($_POST["date"])) 
+                $date = $_POST["date"]; 
+            if(isset($_POST["titre"])) 
+                $titreArticle = $_POST["titre"]; 
+            if(isset($_POST["texte"])) 
+                $texte = $_POST["texte"];
+            if(isset($_POST["visuel"])) 
+                $visuel = $_POST["visuel"];
+            if(isset($_POST["idJournaliste"])) 
+                $idJournaliste = $_POST["idJournaliste"];
+            if(isset($_POST["rubrique"])) 
+                $rubrique = $_POST["rubrique"];
+            $rubriques = obtenirRubriques();
             $titre = "Ajouter un article";
             require_once("vues/header.php");
             require("vues/formAjoutArticle.php");
             require_once("vues/footer.php");
         break; 
         case "ajoutArticle":
-            if(isset($_REQUEST["date"], $_REQUEST["titre"], $_REQUEST["texte"], $_REQUEST["visuel"], $_REQUEST["rubrique"]))
+            if(isset($_POST["date"], $_POST["titre"], $_POST["texte"], $_POST["visuel"], $_POST["rubrique"]))
             { 
-                $date = trim($_REQUEST["date"]);
-                $titre = trim($_REQUEST["titre"]);
-                $texte = trim($_REQUEST["texte"]);
-                $visuel = trim($_REQUEST["visuel"]);
-                $idJournaliste = trim($_REQUEST["idJournaliste"]);
-                $rubrique = trim($_REQUEST["rubrique"]);
+                $date = trim($_POST["date"]);
+                $titre = trim($_POST["titre"]);
+                $texte = trim($_POST["texte"]);
+                $visuel = trim($_POST["visuel"]);
+                $idJournaliste = trim($_POST["idJournaliste"]);
+                $rubrique = trim($_POST["rubrique"]);
                 if($date != "" && $titre != "" && $texte != "" && $rubrique != "" && $visuel != "" && $idJournaliste != "" && is_numeric($idJournaliste))
                 {
                     $resultat = ajoutArticle($date, $titre, $texte, $visuel, $idJournaliste, $rubrique);

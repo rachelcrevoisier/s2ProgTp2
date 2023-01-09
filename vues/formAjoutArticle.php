@@ -10,7 +10,7 @@
         Rubrique : 
     <select name="rubrique">
     <?php
-    $rubriques = obtenirRubriques();
+    
         while($rangeeRubrique = mysqli_fetch_assoc($rubriques))
         {
             if($rubrique == $rangeeRubrique["rubrique"])
