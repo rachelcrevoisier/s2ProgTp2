@@ -33,7 +33,7 @@
         // Info pour se connecter
         global $connexion;
         $requete = "SELECT s2tp2_articles.id, titre, texte, visuel, date, idJournaliste, rubrique FROM s2tp2_articles
-        INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.id = s2tp2_articles.idJournaliste
+        INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.identifiant = s2tp2_articles.idJournaliste
         ORDER BY s2tp2_articles.date DESC limit 3,30";
         $resultats = mysqli_query($connexion, $requete);
         return $resultats;
@@ -42,7 +42,7 @@
     {
         global $connexion;
         $requete = "SELECT s2tp2_articles.id, titre, texte, visuel, date, idJournaliste, rubrique FROM s2tp2_articles
-        INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.id = s2tp2_articles.idJournaliste
+        INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.identifiant = s2tp2_articles.idJournaliste
         ORDER BY s2tp2_articles.date DESC limit 1";
         $resultats = mysqli_query($connexion, $requete);
         return $resultats;
@@ -51,7 +51,7 @@
     {
         global $connexion;
         $requete = "SELECT s2tp2_articles.id, titre, texte, visuel, date, idJournaliste, rubrique FROM s2tp2_articles
-        INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.id = s2tp2_articles.idJournaliste
+        INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.identifiant = s2tp2_articles.idJournaliste
         ORDER BY s2tp2_articles.date DESC limit 1,2";
         $resultats = mysqli_query($connexion, $requete);
         return $resultats;
@@ -68,7 +68,7 @@
     {
         global $connexion;
         $requete = "SELECT s2tp2_articles.id AS articleId, titre, texte, visuel, rubrique, date, idJournaliste, CONCAT(prenom,' ', nom) AS journaliste, identifiant FROM s2tp2_articles
-        INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.id = s2tp2_articles.idJournaliste
+        INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.identifiant = s2tp2_articles.idJournaliste
         WHERE s2tp2_articles.id=$id";
         $resultats = mysqli_query($connexion, $requete);
         return $resultats;
@@ -100,7 +100,7 @@
         //si la requête préparée fonctionne 
         if($reqPrep)
         {
-            mysqli_stmt_bind_param($reqPrep, "ssssis", $date, $titre, $texte, $visuel, $idJournaliste, $rubrique);
+            mysqli_stmt_bind_param($reqPrep, "ssssss", $date, $titre, $texte, $visuel, $idJournaliste, $rubrique);
             mysqli_stmt_execute($reqPrep);
             if(mysqli_stmt_affected_rows($reqPrep) >= 1)
                 return true;
@@ -123,7 +123,7 @@
         global $connexion;
         $recherche = "%" . $rechercheFaite . "%";
         $requete = "SELECT s2tp2_articles.id, titre, texte, visuel, date, idJournaliste FROM s2tp2_articles
-        INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.id = s2tp2_articles.idJournaliste
+        INNER JOIN s2tp2_journalistes ON s2tp2_journalistes.identifiant = s2tp2_articles.idJournaliste
         WHERE titre like ? OR texte like ? OR rubrique like ?
         ORDER BY s2tp2_articles.date DESC";
         $reqPrep = mysqli_prepare($connexion, $requete);
