@@ -11,8 +11,17 @@
 <body>
     <header>
         <div class="iconesConnexion">
-            <span class="material-symbols-outlined"><a href="index.php?commande=seConnecter">account_circle</a></span>
-            <span class="material-symbols-outlined"><a href="index.php?commande=formAjoutArticle">add_circle</a></span>
+            
+            <?php
+            if(!isset($_SESSION["username"]))
+            {
+                echo "<span class=\"material-symbols-outlined\"><a href=\"index.php?commande=seConnecter\">account_circle</a></span>";
+            }
+            else{
+                echo "<span style=\"color:green\">". $_SESSION["username"]. "</span> - <span class=\"material-symbols-outlined\"><a href=\"index.php?usernameDeconnexion=". $_SESSION["username"]."\">cancel</a></span> - <span class=\"material-symbols-outlined\"><a href=\"index.php?commande=formAjoutArticle\">add_circle</a></span> ";
+            }
+            ?>
+            
         </div>
         <nav>
             <a href="index.php?commande=accueil">Accueil</a>
