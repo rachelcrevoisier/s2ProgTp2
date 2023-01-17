@@ -5,6 +5,7 @@
 }
 img {
 	max-width: 100%;
+	border-radius: 5px;
 }
 
 
@@ -38,7 +39,7 @@ html {
 h3 {
 	margin-top: 1.4em;
 	margin-bottom: 0.8em;
-}
+} 
 .articlesUnes h3 {
 	margin-top: 0.4em;
 	margin-bottom: 0.2em;
@@ -98,12 +99,19 @@ input {
 	background-color: #2b475c;
 	border-radius: 5px;
 }
-main{
+.boutonConnexion {
+	display: inline-block;
+	padding: 6px 10px;
+	background-color: #c4b5a0;
+	border-radius: 5px;
+	margin-top:10px;
+}
+ main{
 	display:flex;
 	flex-direction: column;
 	gap:5px;
 	align-items: center;
-}
+} 
 main .iconeEdition{
 	align-items: flex-start;
 }
@@ -117,17 +125,20 @@ section{
 	justify-content: center;
 	padding: 10px;
 	width: 70%;
+
 }
 .article1{
 	display: flex;
     flex-direction: column;
 	align-items: flex-end; 
 	flex: 1;
+	
 } 
 .article1 img{
-	margin-bottom:35px;
-	width: 130%;
+	margin-bottom:45px;
+	
 } 
+
 .articles2et3{
     display: flex;
     flex-direction: column;
@@ -135,9 +146,10 @@ section{
 	text-align: right;
 	gap:15px;
 	width: 40%;
+	
 }
 .articles2et3 img{
-    width: 70%;
+    max-width: 68%;
 }
 .articles2et3 h3{
 	font-size: 15px;
@@ -149,6 +161,8 @@ section{
 
 .auteur{
 	font-weight: bold;
+	font-style: italic;
+	font-size: 12px;
 }
 .date{
 	font-style: italic;
