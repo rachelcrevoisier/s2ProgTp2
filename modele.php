@@ -64,10 +64,15 @@
         $resultats = mysqli_query($connexion, $requete);
         return $resultats;
     }
-    function hash23($mdp){
-       $resultats = password_hash($mdp, PASSWORD_DEFAULT);
-       return $resultats;
+    function obtenirJournaliste()
+    {
+        global $connexion;
+        $requete = "SELECT identifiant, motDePasse, nom, prenom FROM s2tp2_journalistes
+        ORDER BY rubrique";
+        $resultats = mysqli_query($connexion, $requete);
+        return $resultats;
     }
+    
     function articleId($id)
     {
         global $connexion;

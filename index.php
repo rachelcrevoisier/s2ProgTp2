@@ -74,7 +74,7 @@ if(isset($_GET["usernameDeconnexion"]))
                     }
                 
                     else 
-                        afficheArticleAccueil("Vos informations sont erronnées");
+                        afficheArticleAccueil("Vos informations ne sont pas ok");
                     
                 }
                 else 
@@ -115,8 +115,12 @@ if(isset($_GET["usernameDeconnexion"]))
             }
         break;
         case "formModifArticle":
+            $resultatJournaliste = articleId($_GET["idArticle"]);
+            $article = mysqli_fetch_assoc($resultatJournaliste);
+            $idjournaliste = $article["idJournaliste"];
+            
             // On vérifie s'il y a un get ID et s'il est numérique. S'il y en a pas, on redirige vers index
-            if(!isset($_GET["idArticle"]) || !isset($_GET["idJournaliste"]) || !is_numeric($_GET["idArticle"]) || $_GET["idJournaliste"]!=$_SESSION["username"])
+            if(!isset($_GET["idArticle"]) || !isset($_GET["idJournaliste"]) || !is_numeric($_GET["idArticle"]) || $idjournaliste!=$_SESSION["username"])
             {
                 header("Location: index.php?commande=accueil&message=Vous ne pouvez pas modifier cet article");
                 die();
@@ -140,8 +144,11 @@ if(isset($_GET["usernameDeconnexion"]))
         break;
         // On modifie l'article
         case "modifieArticle":
+            $resultatJournaliste = articleId($_POST["id"]);
+            $article = mysqli_fetch_assoc($resultatJournaliste);
+            $idjournaliste = $article["idJournaliste"];
             //Si on a bien tous nos request, on supprime les espaces et ensuite on vérifie s'ils ne sont pas vides, si pas ok, on redirige vers le formulaire avec l'id en parametre
-            if(isset($_REQUEST["date"], $_REQUEST["titre"], $_REQUEST["texte"], $_REQUEST["visuel"], $_REQUEST["id"], $_REQUEST["rubrique"]) && $_GET["idJournaliste"]==$_SESSION["username"])
+            if(isset($_REQUEST["date"], $_REQUEST["titre"], $_REQUEST["texte"], $_REQUEST["visuel"], $_REQUEST["id"], $_REQUEST["rubrique"]) && $idjournaliste==$_SESSION["username"])
             { 
                 $date = trim($_REQUEST["date"]);
                 $titre = trim($_REQUEST["titre"]);
@@ -226,9 +233,12 @@ if(isset($_GET["usernameDeconnexion"]))
             }
         break;
         case "supArticle": 
-            if(isset($_SESSION["username"]) && $_SESSION["username"] == $_GET["idJournaliste"]) {
+            $resultatJournaliste = articleId($_GET["idArticle"]);
+            $article = mysqli_fetch_assoc($resultatJournaliste);
+            $idjournaliste = $article["idJournaliste"];
+            if(isset($_SESSION["username"]) && $_SESSION["username"] == $idjournaliste) {
                 // on vérifie si on a bien un request id
-                if(!isset($_GET["idArticle"]) || !is_numeric($_GET["idArticle"]) || $_GET["idJournaliste"]!=$_SESSION["username"])
+                if(!isset($_GET["idArticle"]) || !is_numeric($_GET["idArticle"]) )
                 {
                     header("Location: index.php?commande=accueil&message=Vous ne pouvez pas supprimer cet article");
                     die();
