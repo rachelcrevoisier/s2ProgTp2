@@ -64,6 +64,10 @@
         $resultats = mysqli_query($connexion, $requete);
         return $resultats;
     }
+    function hash23($mdp){
+       $resultats = password_hash($mdp, PASSWORD_DEFAULT);
+       return $resultats;
+    }
     function articleId($id)
     {
         global $connexion;
@@ -135,4 +139,41 @@
         }
         return $resultats;
     }
+    function seConnecte($identifiant,$mdp){
+        global $connexion;
+        
+        $requete = "SELECT motDePasse, identifiant FROM s2tp2_journalistes
+        WHERE identifiant=?";
+        
+        $reqPrep = mysqli_prepare($connexion, $requete);
+
+        if($reqPrep)
+        {
+            //3. Faire le lien entre les paramètres envoyés par l'usager ET les ? contenus dans la requête
+            mysqli_stmt_bind_param($reqPrep, "s", $identifiant);
+            //4. exécuter la requête préparée
+            mysqli_stmt_execute($reqPrep);
+            //5. comme c'est un select j'ai besoin des résultats
+            $resultats = mysqli_stmt_get_result($reqPrep);
+        
+            //il y a un usager dont le username est celui envoyé en paramètres
+            if(mysqli_num_rows($resultats) > 0)
+            {
+                //est-ce que le mot de passe encrypté dans la BD peut être obtenu en encryptant celui envoyé par l'usager
+                $usager = mysqli_fetch_assoc($resultats);
+                $passwordHash = $usager["motDePasse"];
+
+                $verification = password_verify($mdp, $passwordHash);
+
+                if($verification)
+                    return $usager["identifiant"];
+                else 
+                    return false;
+                
+            }
+            else 
+                return false;
+        }
+    }
+   
 ?>

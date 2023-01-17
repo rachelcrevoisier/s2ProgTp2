@@ -1,4 +1,19 @@
 <?php 
+// On démarre une session sur la page index (donc, sur toutes les pages).
+session_start();
+// On controle s'il y a un bien un identifiant et un mdp pour inscrire l'identifiant session
+if(isset($usager["identifiant"]))    
+            $_SESSION["username"] = $usager["identifiant"];
+            
+if(isset($_GET["usernameDeconnexion"]))
+{
+    session_destroy();   
+    session_unset();  
+    header("Location: index.php");
+
+}
+
+
     /*  index.php = contrôleur 
         Il s'occupe des redirections et des contrôles
     */
@@ -38,13 +53,42 @@
             require_once("vues/header.php");
             require("vues/quisommesnous.php");
             require_once("vues/footer.php");
-        break;  
+        break; 
         case "seConnecter": 
             $titre = "Se connecter";
             require_once("vues/header.php");
-            require("vues/connexion.php");
+            require("vues/seConnecter.php");
             require_once("vues/footer.php");
+        break;
+        case "connexion": 
+            if(ISSET($_POST["identifiant"]) && ISSET($_POST["motDePasse"])){
+                $identifiant = trim($_POST["identifiant"]);
+                $mdp = trim($_POST["motDePasse"]);
+                
+                if($identifiant!="" && $mdp !=""){
+                   
+                    $seConnecte = seConnecte($identifiant,$mdp);
+                    if($seConnecte){
+                        $_SESSION["username"] = $seConnecte;
+                        afficheArticleAccueil($_SESSION["username"]." est connecté");
+                    }
+                
+                    else 
+                        afficheArticleAccueil("Vos informations sont erronnées");
+                    
+                }
+                else 
+                afficheArticleAccueil("Vous n'avez pas inscrit d'information de connexion");
+            }
+            else 
+                {
+                    header("Location: index.php?commande=seConnecter&message=Veuillez compléter les informations de connexion");
+                }
+
+            
+            
         break; 
+        
         // Lecture d'un article
         case "article":
             // On vérifie s'il y a un get ID et s'il est numérique. S'il y en a pas, on redirige vers index
@@ -72,9 +116,9 @@
         break;
         case "formModifArticle":
             // On vérifie s'il y a un get ID et s'il est numérique. S'il y en a pas, on redirige vers index
-            if(!isset($_GET["idArticle"]) || !is_numeric($_GET["idArticle"]))
+            if(!isset($_GET["idArticle"]) || !isset($_GET["idJournaliste"]) || !is_numeric($_GET["idArticle"]) || $_GET["idJournaliste"]!=$_SESSION["username"])
             {
-                header("Location: index.php");
+                header("Location: index.php?commande=accueil&message=Vous ne pouvez pas modifier cet article");
                 die();
             }
             // On a besoin de la fonction articleID avec l'ID de l'article en paramètre
@@ -90,14 +134,14 @@
             }
             else 
             { 
-                header("Location: index.php");
+                header("Location: index.php?commande=accueil&message=Aucun article enregistré");
                 die();
             }
         break;
         // On modifie l'article
         case "modifieArticle":
             //Si on a bien tous nos request, on supprime les espaces et ensuite on vérifie s'ils ne sont pas vides, si pas ok, on redirige vers le formulaire avec l'id en parametre
-            if(isset($_REQUEST["date"], $_REQUEST["titre"], $_REQUEST["texte"], $_REQUEST["visuel"], $_REQUEST["id"], $_REQUEST["rubrique"]))
+            if(isset($_REQUEST["date"], $_REQUEST["titre"], $_REQUEST["texte"], $_REQUEST["visuel"], $_REQUEST["id"], $_REQUEST["rubrique"]) && $_GET["idJournaliste"]==$_SESSION["username"])
             { 
                 $date = trim($_REQUEST["date"]);
                 $titre = trim($_REQUEST["titre"]);
@@ -127,6 +171,11 @@
             }
         break;
         case "formAjoutArticle":
+            if(!isset($_SESSION["username"]))
+            {
+                header("Location: index.php?commande=accueil&message=Vous ne pouvez pas ajouter un article");
+                die();
+            }
             // on crée les valeurs vides dont on a besoin pour le formulaire au cas où celui-ci soit invalide. S'il y a des request, la valeur prend celle du request pour retourner dans le formulaire d'ajout
             $date = "";
             $titreArticle = "";
@@ -153,15 +202,15 @@
             require_once("vues/footer.php");
         break; 
         case "ajoutArticle":
-            if(isset($_POST["date"], $_POST["titre"], $_POST["texte"], $_POST["visuel"], $_POST["rubrique"]))
+            if(isset($_POST["date"], $_POST["titre"], $_POST["texte"], $_POST["visuel"], $_POST["rubrique"],$_SESSION["username"]))
             { 
                 $date = trim($_POST["date"]);
                 $titre = trim($_POST["titre"]);
                 $texte = trim($_POST["texte"]);
                 $visuel = trim($_POST["visuel"]);
-                $idJournaliste = trim($_POST["idJournaliste"]);
+                $idJournaliste = trim($_SESSION["username"]);
                 $rubrique = trim($_POST["rubrique"]);
-                if($date != "" && $titre != "" && $texte != "" && $rubrique != "" && $visuel != "" && $idJournaliste != "" && is_numeric($idJournaliste))
+                if($date != "" && $titre != "" && $texte != "" && $rubrique != "" && $visuel != "" && $idJournaliste != "")
                 {
                     $resultat = ajoutArticle($date, $titre, $texte, $visuel, $idJournaliste, $rubrique);
                     if($resultat)
@@ -177,18 +226,26 @@
             }
         break;
         case "supArticle": 
-            // on vérifie si on a bien un request id
-            if(!isset($_GET["idArticle"]) || !is_numeric($_GET["idArticle"]))
-            {
-                header("Location: index.php");
-                die();
-            }
-            // On va chercher notre fonction pour supprimer l'article
-            $resultat = supArticle($_GET["idArticle"]);
-            if($resultat)
-                afficheArticleAccueil("Suppression réussie.");
-            else 
-                afficheArticleAccueil("Aucune suppression effectuée.");
+            if(isset($_SESSION["username"]) && $_SESSION["username"] == $_GET["idJournaliste"]) {
+                // on vérifie si on a bien un request id
+                if(!isset($_GET["idArticle"]) || !is_numeric($_GET["idArticle"]) || $_GET["idJournaliste"]!=$_SESSION["username"])
+                {
+                    header("Location: index.php?commande=accueil&message=Vous ne pouvez pas supprimer cet article");
+                    die();
+                }
+                // On va chercher notre fonction pour supprimer l'article
+                $resultat = supArticle($_GET["idArticle"]);
+                if($resultat)
+                    afficheArticleAccueil("Suppression réussie.");
+                else 
+                    afficheArticleAccueil("Aucune suppression effectuée.");
+            }else
+                {
+                    header("Location: index.php?commande=accueil&message=Vous ne pouvez pas supprimer cet article");
+                    die();
+                }
+            
+            
         break;  
         case "rechercheArticle":
             // Si une personne clique sur recherche sans inscrire de valeur, ou s'il n'y a pas de get recherche, alors on redirige vers la page d'accueil avec un message
