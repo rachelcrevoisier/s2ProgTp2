@@ -48,7 +48,7 @@
                     if(isset($_SESSION["username"]) && $rangee["idJournaliste"]==$_SESSION["username"])
                     {
                         echo "
-                        <span class=\"material-symbols-outlined\"><a href=\"index.php?commande=supArticle&idArticle=".$rangee["id"]."&idJournaliste=".$rangee["idJournaliste"]."\">delete</a><a href=\"index.php?commande=formModifArticle&idArticle=".$rangee["id"]."&idJournaliste=".$rangee["idJournaliste"]."\">edit_note</a></span>
+                        <br><span class=\"material-symbols-outlined\"><a href=\"index.php?commande=supArticle&idArticle=".$rangee["id"]."&idJournaliste=".$rangee["idJournaliste"]."\">delete</a><a href=\"index.php?commande=formModifArticle&idArticle=".$rangee["id"]."&idJournaliste=".$rangee["idJournaliste"]."\">edit_note</a></span>
                         ";
                     }
                     echo "</h3></div>";
