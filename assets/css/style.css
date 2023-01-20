@@ -113,7 +113,8 @@ input {
 	align-items: center;
 } 
 main .iconeEdition{
-	align-items: flex-start;
+	align-items: center;
+	justify-content: left;
 }
 section{
 	padding-left:30px;
@@ -167,6 +168,25 @@ section{
 .date{
 	font-style: italic;
 	font-size: 10px;
+}
+.autresArticles{
+	display: flex;
+    gap:20px;
+	width: 70%;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	
+}
+.autresArticles h3{
+	font-size: 12px;
+	
+}
+.articlesAccueil{
+	display: flex;
+    flex-direction: column;
+    width: 200px;
+	align-items: center;
+	
 }
 .grille-presentation {
 	display: grid;
