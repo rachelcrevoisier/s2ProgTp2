@@ -8,7 +8,14 @@
                 while($rangee = mysqli_fetch_assoc($listeDernierArticle))
                 {
                     echo "<a href=\"index.php?commande=article&idArticle=".$rangee["id"]."\"> <img src=\"assets/img/articles/". htmlspecialchars($rangee["visuel"])."\" alt=\"". htmlspecialchars($rangee["titre"]) ."\">";
-                    echo "<h3>" . htmlspecialchars($rangee["titre"]) . "<br><span class=\"date\">" . htmlspecialchars($rangee["date"]) . "</span></h3></a>";
+                    echo "<h3>" . htmlspecialchars($rangee["titre"]) . "<br><span class=\"date\">" . htmlspecialchars($rangee["date"]) . "</span></a>";
+                    if(isset($_SESSION["username"]) && $rangee["idJournaliste"]==$_SESSION["username"])
+                    {
+                        echo "
+                        <span class=\"material-symbols-outlined\"><a href=\"index.php?commande=supArticle&idArticle=".$rangee["id"]."&idJournaliste=".$rangee["idJournaliste"]."\">delete</a></span>
+                        <span class=\"material-symbols-outlined\"><a href=\"index.php?commande=formModifArticle&idArticle=".$rangee["id"]."&idJournaliste=".$rangee["idJournaliste"]."\">edit_note</a></span></h3>
+                        ";
+                    }
                 }
             ?>
         </div>
@@ -17,21 +24,38 @@
                 while($rangee = mysqli_fetch_assoc($liste2ArticlesUne))
                 {
                     echo "<a href=\"index.php?commande=article&idArticle=".$rangee["id"]."\"> <img src=\"assets/img/articles/". htmlspecialchars($rangee["visuel"])."\" alt=\"". htmlspecialchars($rangee["titre"]) ."\">";
-                    echo "<h3>" . htmlspecialchars($rangee["titre"]) . "<br><span class=\"date\">" . htmlspecialchars($rangee["date"]) . "</span></h3></a>";
+                    echo "<h3>" . htmlspecialchars($rangee["titre"]) . "<br><span class=\"date\">" . htmlspecialchars($rangee["date"]) . "</span></a><br>";
+                    if(isset($_SESSION["username"]) && $rangee["idJournaliste"]==$_SESSION["username"])
+                    {
+                        echo "
+                        <span class=\"material-symbols-outlined\"><a href=\"index.php?commande=supArticle&idArticle=".$rangee["id"]."&idJournaliste=".$rangee["idJournaliste"]."\">delete</a></span>
+                        <span class=\"material-symbols-outlined\"><a href=\"index.php?commande=formModifArticle&idArticle=".$rangee["id"]."&idJournaliste=".$rangee["idJournaliste"]."\">edit_note</a></span></h3>
+                        ";
+                    }
                 }
             ?>
         </div>
     </section>
-    
-    <section class="grille-presentation">
-   
+
+    <section class="autresArticles">
+        
         <?php 
                 while($rangee = mysqli_fetch_assoc($listeArticles))
                 {
+                    echo "<div class=\"articlesAccueil\">";
                     echo "<a href=\"index.php?commande=article&idArticle=".$rangee["id"]."\"> <img src=\"assets/img/articles/". htmlspecialchars($rangee["visuel"])."\" alt=\"". htmlspecialchars($rangee["titre"]) ."\">";
-                    echo "<h3>" . htmlspecialchars($rangee["titre"]) . "<br><span class=\"date\">" . htmlspecialchars($rangee["date"]) . "</span></h3></a>";
+                    echo "<h3>" . htmlspecialchars($rangee["titre"]) . "<br><span class=\"date\">" . htmlspecialchars($rangee["date"]) . "</span></a>";
+                    if(isset($_SESSION["username"]) && $rangee["idJournaliste"]==$_SESSION["username"])
+                    {
+                        echo "
+                        <span class=\"material-symbols-outlined\"><a href=\"index.php?commande=supArticle&idArticle=".$rangee["id"]."&idJournaliste=".$rangee["idJournaliste"]."\">delete</a><a href=\"index.php?commande=formModifArticle&idArticle=".$rangee["id"]."&idJournaliste=".$rangee["idJournaliste"]."\">edit_note</a></span>
+                        ";
+                    }
+                    echo "</h3></div>";
                 }
             ?>
+        
+        
       
     </section>
            
