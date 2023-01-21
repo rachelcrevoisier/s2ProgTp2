@@ -2,9 +2,7 @@
 // On démarre une session sur la page index (donc, sur toutes les pages).
 session_start();
 // On controle s'il y a un bien un identifiant et un mdp pour inscrire l'identifiant session
-if(isset($usager["identifiant"]))    
-            $_SESSION["username"] = $usager["identifiant"];
-            
+
 if(isset($_GET["usernameDeconnexion"]))
 {
     session_destroy();   
