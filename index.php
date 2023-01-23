@@ -95,7 +95,7 @@ session_start();
                 }
                 // Finally, destroy the session.
                 session_destroy();
-                header("Location: index.php");
+                header("Location: index.php?message=Vous êtes déconnecté");
                 die(); 
             }
         break;
