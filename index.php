@@ -1,17 +1,14 @@
 <?php 
 // On démarre une session sur la page index (donc, sur toutes les pages).
 session_start();
-// On controle s'il y a un bien un identifiant et un mdp pour inscrire l'identifiant session
-
-if(isset($_GET["usernameDeconnexion"]))
+// On efface les données et session à la deconnexion         
+/* if(isset($_GET["usernameDeconnexion"]))
 {
     session_destroy();   
     session_unset();  
     header("Location: index.php");
 
-}
-
-
+} */
     /*  index.php = contrôleur 
         Il s'occupe des redirections et des contrôles
     */
@@ -82,11 +79,26 @@ if(isset($_GET["usernameDeconnexion"]))
                 {
                     header("Location: index.php?commande=seConnecter&message=Veuillez compléter les informations de connexion");
                 }
-
-            
-            
         break; 
-        
+        case "usernameDeconnexion":
+            if(isset($_GET["usernameDeconnexion"])){
+               // Unset all of the session variables.
+                $_SESSION = array();
+                // If it's desired to kill the session, also delete the session cookie.
+                // Note: This will destroy the session, and not just the session data!
+                if (ini_get("session.use_cookies")) {
+                    $params = session_get_cookie_params();
+                    setcookie(session_name(), '', time() - 42000,
+                        $params["path"], $params["domain"],
+                        $params["secure"], $params["httponly"]
+                    );
+                }
+                // Finally, destroy the session.
+                session_destroy();
+                header("Location: index.php");
+                die(); 
+            }
+        break;
         // Lecture d'un article
         case "article":
             // On vérifie s'il y a un get ID et s'il est numérique. S'il y en a pas, on redirige vers index
@@ -222,7 +234,7 @@ if(isset($_GET["usernameDeconnexion"]))
                         afficheArticleAccueil("Ajout réussie.");
                     else 
                         afficheArticleAccueil("Aucun ajout effectué.");
-               } 
+                } 
                 else 
                 {
                     header("Location: index.php?commande=formAjoutArticle&message=Veuillez remplir correctement les champs.&date=$date&titre=$titre&texte=$texte&visuel=$visuel");
@@ -247,13 +259,12 @@ if(isset($_GET["usernameDeconnexion"]))
                     afficheArticleAccueil("Suppression réussie.");
                 else 
                     afficheArticleAccueil("Aucune suppression effectuée.");
-            }else
-                {
-                    header("Location: index.php?commande=accueil&message=Vous ne pouvez pas supprimer cet article");
-                    die();
-                }
-            
-            
+            }
+            else
+            {
+                header("Location: index.php?commande=accueil&message=Vous ne pouvez pas supprimer cet article");
+                die();
+            } 
         break;  
         case "rechercheArticle":
             // Si une personne clique sur recherche sans inscrire de valeur, ou s'il n'y a pas de get recherche, alors on redirige vers la page d'accueil avec un message
