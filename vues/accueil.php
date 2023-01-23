@@ -23,8 +23,8 @@
             <?php 
                 while($rangee = mysqli_fetch_assoc($liste2ArticlesUne))
                 {
-                    echo "<a href=\"index.php?commande=article&idArticle=".$rangee["id"]."\"> <img src=\"assets/img/articles/". htmlspecialchars($rangee["visuel"])."\" alt=\"". htmlspecialchars($rangee["titre"]) ."\">";
-                    echo "<h3>" . htmlspecialchars($rangee["titre"]) . "<br><span class=\"date\">" . htmlspecialchars($rangee["date"]) . "</span></a><br>";
+                    echo "<h3><a href=\"index.php?commande=article&idArticle=".$rangee["id"]."\"> <img src=\"assets/img/articles/". htmlspecialchars($rangee["visuel"])."\" alt=\"". htmlspecialchars($rangee["titre"]) ."\"><br>";
+                    echo htmlspecialchars($rangee["titre"]) . "<br><span class=\"date\">" . htmlspecialchars($rangee["date"]) . "</span></a>";
                     if(isset($_SESSION["username"]) && $rangee["idJournaliste"]==$_SESSION["username"])
                     {
                         echo "
