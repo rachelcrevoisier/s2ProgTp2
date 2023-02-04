@@ -13,8 +13,8 @@
                 if(isset($_SESSION["username"]) && $rangee["idJournaliste"]==$_SESSION["username"])
                     {
                         echo "<div class=\"iconeEdition\">
-                        <span class=\"material-symbols-outlined\"><a href=\"index.php?commande=supArticle&idArticle=".$rangee["articleId"]."&idJournaliste=".$rangee["idJournaliste"]."\">delete</a></span>
-                        <span class=\"material-symbols-outlined\"><a href=\"index.php?commande=formModifArticle&idArticle=".$rangee["articleId"]."&idJournaliste=".$rangee["idJournaliste"]."\">edit_note</a></span>
+                        <span class=\"material-symbols-outlined\"><a href=\"index.php?commande=supArticle&idArticle=".$rangee["articleId"]."\">delete</a></span>
+                        <span class=\"material-symbols-outlined\"><a href=\"index.php?commande=formModifArticle&idArticle=".$rangee["articleId"]."\">edit_note</a></span>
                         </div>";
                     }
 

@@ -95,7 +95,7 @@ session_start();
                 }
                 // Finally, destroy the session.
                 session_destroy();
-                header("Location: index.php?message=Vous êtes déconnecté");
+                header("Location: index.php");
                 die(); 
             }
         break;
@@ -116,7 +116,6 @@ session_start();
                 require_once("vues/header.php");
                 require("vues/article.php");
                 require_once("vues/footer.php");
-                break; 
             }
             else 
             { 
@@ -130,7 +129,7 @@ session_start();
             $idjournaliste = $article["idJournaliste"];
             
             // On vérifie s'il y a un get ID et s'il est numérique. S'il y en a pas, on redirige vers index
-            if(!isset($_GET["idArticle"]) || !isset($_GET["idJournaliste"]) || !is_numeric($_GET["idArticle"]) || $idjournaliste!=$_SESSION["username"])
+            if(!isset($_GET["idArticle"]) || !is_numeric($_GET["idArticle"]) || $idjournaliste!=$_SESSION["username"])
             {
                 header("Location: index.php?commande=accueil&message=Vous ne pouvez pas modifier cet article");
                 die();
@@ -200,18 +199,18 @@ session_start();
             $visuel = "";
             $idJournaliste = "";
             $rubrique = "";
-            if(isset($_POST["date"])) 
-                $date = $_POST["date"]; 
-            if(isset($_POST["titre"])) 
-                $titreArticle = $_POST["titre"]; 
-            if(isset($_POST["texte"])) 
-                $texte = $_POST["texte"];
-            if(isset($_POST["visuel"])) 
-                $visuel = $_POST["visuel"];
-            if(isset($_POST["idJournaliste"])) 
-                $idJournaliste = $_POST["idJournaliste"];
-            if(isset($_POST["rubrique"])) 
-                $rubrique = $_POST["rubrique"];
+            if(isset($_REQUEST["date"])) 
+                $date = $_REQUEST["date"]; 
+            if(isset($_REQUEST["titre"])) 
+                $titreArticle = $_REQUEST["titre"]; 
+            if(isset($_REQUEST["texte"])) 
+                $texte = $_REQUEST["texte"];
+            if(isset($_REQUEST["visuel"])) 
+                $visuel = $_REQUEST["visuel"];
+            if(isset($_REQUEST["idJournaliste"])) 
+                $idJournaliste = $_REQUEST["idJournaliste"];
+            if(isset($_REQUEST["rubrique"])) 
+                $rubrique = $_REQUEST["rubrique"];
             $rubriques = obtenirRubriques();
             $titre = "Ajouter un article";
             require_once("vues/header.php");
@@ -222,7 +221,7 @@ session_start();
             if(isset($_POST["date"], $_POST["titre"], $_POST["texte"], $_POST["visuel"], $_POST["rubrique"],$_SESSION["username"]))
             { 
                 $date = trim($_POST["date"]);
-                $titre = trim($_POST["titre"]);
+                $titreArticle = trim($_POST["titre"]);
                 $texte = trim($_POST["texte"]);
                 $visuel = trim($_POST["visuel"]);
                 $idJournaliste = trim($_SESSION["username"]);
@@ -237,10 +236,11 @@ session_start();
                 } 
                 else 
                 {
-                    header("Location: index.php?commande=formAjoutArticle&message=Veuillez remplir correctement les champs.&date=$date&titre=$titre&texte=$texte&visuel=$visuel");
+                    header("Location: index.php?commande=formAjoutArticle&message=Veuillez remplir correctement les champs.&date=$date&titre=$titreArticle&texte=$texte&visuel=$visuel");
                     die();
                 } 
             }
+            
         break;
         case "supArticle": 
             $resultatJournaliste = articleId($_GET["idArticle"]);
