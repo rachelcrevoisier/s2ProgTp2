@@ -24,19 +24,5 @@ Dans le haut de la page d’affichage des articles se trouvera un petit formulai
 d) Pages de création et de modification des articles
 La page de création permet à un usager authentifié de créer un article, alors que la page de modification d’un article, accessible seulement par l’auteur de cet article, permettra à l’usager de modifier un article. On donne dans les 2 cas un titre et un texte à l’article en question.
 
-Il y aura aussi 20% du TP d’accordé pour les pratiques de programmation. Produisez donc un code clair, commenté, et modulaire qui gère les exceptions en affichant les messages appropriés, en respectant la structure fournie en classe. Vous devez aussi vous assurer qu’il n’y a pas de trous de sécurité dans votre code (par exemple, qu’il est vraiment impossible pour un utilisateur non-authentifié d’ajouter un article, pour un usager de modifier l’article de quelqu’un d’autre…). Votre code doit
-être protégé contre les attaques par injection SQL et le XSS (cross-site scripting).
+Produisez donc un code clair, commenté, et modulaire qui gère les exceptions en affichant les messages appropriés, en respectant la structure fournie en classe. Vous devez aussi vous assurer qu’il n’y a pas de trous de sécurité dans votre code (par exemple, qu’il est vraiment impossible pour un utilisateur non-authentifié d’ajouter un article, pour un usager de modifier l’article de quelqu’un d’autre…). Votre code doit être protégé contre les attaques par injection SQL et le XSS (cross-site scripting).
 De plus, sans faire l’objet d’un effort gargantuesque, la présentation doit tout de même être soignée, le HTML et le CSS devant être réalisé selon les pratiques que vous avez apprises jusqu’à maintenant.
-
-Ce qu’il faut remettre
-Sauvegardez votre application complète dans un répertoire identifié par votre nom et déposez ce dernier dans LEA avant minuit à la date d’échéance.
-De plus, votre application doit être installée sur WEBDEV, et votre répertoire de remise remis sur LÉA doit contenir un fichier README.txt contenant l’URL de votre site sur WEBDEV ainsi qu’une liste d’au moins deux usagers (username / password) que je pourrai utiliser pour tester votre TP.
-
-Barème :
-Gestion de l’authentification et de la sécurité (15%)
-Utilisation adéquate des requêtes SQL (20%)
-Traitement de requêtes, affichage des données dynamiques en PHP (25 %)
-Fonctionnement correct de l’application (20 %)
-Pratiques de programmation et gestion des versions (20%)
-
-Lien webdev : https://e2194722.webdev.cmaisonneuve.qc.ca/s2ProgTp2/index.php?commande=accueil
